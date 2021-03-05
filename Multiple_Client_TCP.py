@@ -6,7 +6,7 @@ from datetime import datetime
 
 tasks = {b'Beautiful is better than?': b'Ugly.',
          b'Explicit is better than?': b'Implicit.',
-         b'What session?': b'2020-2021.'}
+         b'What session books?': b'2020-2021.'}
 
 
 def recv_until(sock, suffix):

@@ -4,7 +4,7 @@ from threading import Thread
 tasks = {
     b'Beautiful is better than?' : b'Ugly.',
     b'Explicit is better than?' : b'Implicit.',
-    b'What session?' : b'2020-2021.',
+    b'What session books?' : b'2020-2021.',
 }
 
 def create_socket(address):
@@ -51,7 +51,7 @@ def recv_untill(sock, suffix):
 
 def get_ans(task):
     time.sleep(2)
-    return tasks.get(task, b'Error: Unknown task')
+    return tasks.get(task, b'Error: Unknown task.')
 
 def parse_cmd_line(desc):
     parser = argparse.ArgumentParser(description=desc)
