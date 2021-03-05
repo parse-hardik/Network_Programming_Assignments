@@ -35,6 +35,7 @@ def handle_conversation(sock, address):
 def handle_request(sock):
     task = recv_untill(sock,b'?')
     ans = get_ans(task)
+    print('sending ans: {}'.format(ans))
     sock.sendall(ans)
 
 def recv_untill(sock, suffix):
