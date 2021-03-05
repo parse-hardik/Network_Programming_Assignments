@@ -23,8 +23,8 @@ def serve(listener):
         # If new connection comes
         if sock is listener:
             sock, address = sock.accept()
-            print('Accepted connection from {}'.format(sock.getsockname()))
-            sock.setblocking(True)
+            print('Accepted connection from {}'.format(address))
+            # sock.setblocking(True)
             sockets[sock.fileno()] = sock
             addresses[sock] = address
             pollobj.register(sock, select.POLLIN)
@@ -32,8 +32,8 @@ def serve(listener):
         # Socket closed from client side
         elif event & (select.POLLHUP | select.POLLERR | select.POLLNVAL):
             address = addresses.pop(sock)
-            rb = bytes_received.pop(sock, 'b')
-            sb = bytes_to_send.pop(sock, 'b')
+            rb = bytes_received.pop(sock, b'')
+            sb = bytes_to_send.pop(sock, b'')
             if rb:
                 print('Abnormal close, client {} sent {} but then closed'.format(address,rb))
             elif sb:
@@ -49,7 +49,7 @@ def serve(listener):
             if not more_data:
                 sock.close()
                 continue
-            data = bytes_received.pop(sock, 'b')
+            data = bytes_received.pop(sock, b'') + more_data
             if data.endswith(b'?'):
                 bytes_to_send[sock] = get_ans(data)
                 pollobj.modify(sock, select.POLLOUT)
