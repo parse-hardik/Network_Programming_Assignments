@@ -26,9 +26,14 @@ def client(port):
 	data = text.encode('ascii')
 	sock.sendto(data, ('127.0.0.1', port))
 	print('The OS assigned me the address {}'.format(sock.getsockname()))
-	data, address = sock.recvfrom(MAX_BYTES)
-	text = data.decode('ascii')
-	print('The server at {} replied {!r}'.format(address, text))
+	while True:
+		data, address = sock.recvfrom(MAX_BYTES)
+		text = data.decode('ascii')
+		text = text.split('<!>')
+		ack = int(text[3])
+		msg = str(ack) + '<!>' + str(ack+1)
+		sock.sendto(msg.encode(), ('127.0.0.1', port))
+		print('The server at {} replied {!r}'.format(address, text))
 
 
 if __name__ == '__main__':
